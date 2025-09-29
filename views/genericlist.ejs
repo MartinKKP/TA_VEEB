@@ -10,8 +10,16 @@
   <p>kõige odavamad <a href="https://www.kors.ee">kõrred</a></p>
   
   <hr>
-	<ul><li><a href="/timenow">AEG</a></li>
-	<ul><li><a href="/vanasonad">vanasonad</a></li></ul>
-	<ul><li><a href="/reqvisit">Pane oma külastus kirja</a></li></ul>
-</body>
+	<ul>
+		<li><a href="/"<Avaleht</a></li>
+		</ul>
+	<hr>
+	<h2><%= heading %></h2>
+	<ul>
+	<!--% Märkidega on ejs kood muutujate näitamiseks -->
+	<% listData.forEach(function(listItem){ %>
+		<li><%= listItem%></li>
+	<% }); %>
+	</ul>
+	</body>
 </html<
