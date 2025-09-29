@@ -1,7 +1,7 @@
 const express = require ("express");
 const fs = require("fs");
 //päringu lahtiharutaja POST jaoks
-const bodyparser = require("bodyparser");
+const bodyparser = require("body-parser");
 const dateET = require("./src/dateTimeET");
 const textRef = "public/txt/vanasonad.txt";
 //Käivitan express funktsiooni ja anna talle nime "app"
@@ -20,7 +20,7 @@ app.get("/", (req, res)=>{
 app.get("/timenow",( req, res)=>{
 	const weekDayNow = dateET.fullDate();
 	const dateNow = dateET.fullDate();
-	res.render("timenow", {weekDayNow: weekDayNow,dateNOw: dateNow});
+	res.render("timenow", {weekDayNow: weekDayNow,dateNow: dateNow});
 });
 app.get("/vanasonad", (req, res)=>{
 	let folkWisdom = [];
@@ -34,10 +34,12 @@ app.get("/vanasonad", (req, res)=>{
 			res.render("genericlist", {heading: "Vanasõnad", listData: folkWisdom});
 		}
 	});
+});
 
 app.get("/regvisit", (req, res)=>{
 	res.render("regvisit");
 });	
+
 app.post("/regvisit",(req, res)=>{
 	console.log(req.body);
 	//avan tekstifaili kijrutamiseks sellisel moel, et kui teda pole siis luuakse.(parameeter "a")
@@ -47,7 +49,7 @@ app.post("/regvisit",(req, res)=>{
 		}
 		else{
 			//faili senisele sisule lisamine
-			fs.appendFile("public/txt/visitlog.txt", req.body.nameInput + "; , (err,)=>{
+			fs.appendFile("public/txt/visitlog.txt", req.body.nameInput + "; ", (err)=>{
 				if(err){
 					throw(err);
 				}
