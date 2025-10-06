@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+  <meta charset="utf-8">
+  <title>odavad kõrred</title>
+</head>
+<body>
+  <img src="images/vp_banner_2025_TA.jpg" alt="bänner">
+  <h1> odavad kõrred</h1>
+  <p>kõige odavamad <a href="https://www.kors.ee">kõrred</a></p>
+  
+  <hr>
+	<ul>
+		<li><a href="/">Avaleht</a></li>
+	<li><a href="/Eestifilm">Eesti filmi avaleht</a></li>
+  </ul>
+  <hr>
+  <h2>Eesti filmiinimeste lisamine andmebaasi</h2>
+  <form method="POST">
+    <label for="firstNameInput">Filmiinimese eesnimi</label>
+	<input id="firstNameInput" name="firstNameInput" type="text" placeholder="Eesnimi ..." required>
+	<br>
+	<label for="lastNameInput">Filmiinimese perekonnanimi</label>
+	<input id="lastNameInput" name="lastNameInput" type="text" placeholder="Perekonnanimi ..." required>
+	<br>
+	<label for="bornInput">Filmiinimese sünniaeg</label>
+	<input id="bornInput" name="bornInput" type="date" required>
+	<br>
+	<label for="deceasedInput">Filmiinimese surmaaeg</label>
+	<input id="deceasedInput" name="deceasedInput" type="date">
+	<br>
+	<input id="personSubmit" name="personSubmit" type="submit" value="Salvesta">
+  </form>
+  <p>Staatus: <%= notice %></p>
+</body>
+</html>

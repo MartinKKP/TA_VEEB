@@ -11,17 +11,9 @@
   <hr>
   <ul>
 	<li><a href="/">Avaleht</a></li>
+  <li><a href="/regvisit">Registreeri veel üks külastus</a></li>
   </ul>
   <hr>
-  <h2>Pane end külastajana kirja</h2>
-  <form method="POST">
-    <label for="firstNameInput">Eesimi</label>
-	  <input id="firstNameInput" type="text" name="firstNameInput" placeholder="Kirjuta siia oma eesnimi...">
-    <br>
-    <label for="lastNameInput">Perekonnanimi</label>
-	  <input id="lastNameInput" type="text" name="lastNameInput" placeholder="Kirjuta siia oma perekonnanimi...">
-    <br>
-	  <input id="regSubmit" type="submit" name="regSubmit" value="Salvesta">
-  </form>
+  <p><%= visitor %> külastus edukalt salvestatud</p>
 </body>
 </html>

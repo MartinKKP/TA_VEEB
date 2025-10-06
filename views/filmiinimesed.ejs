@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+  <meta charset="utf-8">
+  <title>odavad kõrred</title>
+</head>
+<body>
+  <img src="images/vp_banner_2025_TA.jpg" alt="bänner">
+  <h1> odavad kõrred</h1>
+  <p>kõige odavamad <a href="https://www.kors.ee">kõrred</a></p>
+  
+  <hr>
+	<ul>
+		<li><a href="/">Avaleht</a></li>
+		</ul>
+	<hr>
+	<h2>Eesti film</h2>
+	<ul>
+	<!--% Märkidega on ejs kood muutujate näitamiseks -->
+	<li><a href="/Eestifilm">Eesti filmi avaleht</a></li>
+	
+<h2> Eesti filmiinimesed</h2>
+<ol>
+	<% personList.forEach(function(listItem){ %>
+	  <li><%= listItem.first_name%> <%= listItem.last_name%>, sündinud <%= listItem.born%></li>
+	<% }); %>
+	</ol>
+	</body>
+</html<
