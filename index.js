@@ -2,7 +2,9 @@ const express = require("express");
 const fs = require("fs");
 //päringu lahtiharutaja POST jaoks
 const bodyparser = require("body-parser");
-const mysql = require("mysql2");
+//const mysql = require("mysql2");
+//kuna kasutame asünktoonsust, siis impordime mysql2/promise mooduli
+const mysql = require("mysql2/promise");
 const dateEt = require("./src/dateTimeET");
 const dbInfo = require("../../VP_2025_config");
 const textRef = "public/txt/vanasonad.txt";
@@ -16,12 +18,18 @@ app.use(express.static("public"));
 app.use(bodyparser.urlencoded({extended: false}));
 
 //loon andmebaasi ühenduse
-const conn = mysql.createConnection({
+/*const conn = mysql.createConnection({
 	host:dbInfo.configData.host,
 	user:dbInfo.configData.user,
 	password:dbInfo.configData.passWord,
 	database: dbInfo.configData.dataBase
-});
+}); */
+const dbConf = {
+	host:dbInfo.configData.host,
+	user:dbInfo.configData.user,
+	password:dbInfo.configData.passWord,
+	database: dbInfo.configData.dataBase
+}
 app.get("/", (req, res)=>{
 	//res.send("Express.js läks käima ja serveerib veebi!");
 	res.render("index");
@@ -90,46 +98,7 @@ app.get("/visitlog", (req, res)=>{
 		}
 	});
 });
-app.get("/Eestifilm", (req, res)=>{
-	res.render("Eestifilm");
-});
-
-app.get("/Eestifilm/inimesed", (req, res)=>{
-	const sqlReq = "SELECT * FROM person";
-	conn.execute(sqlReq, (err, sqlres)=>{
-		if(err){
-			throw(err);
-		}
-		else {
-			console.log(sqlres);
-			res.render("filmiinimesed", {personList: sqlres});
-		}
-	});
-	//res.render("filmiinimesed");
-});
-
-app.get("/Eestifilm/filmiinimesed_add", (req, res)=>{
-	console.log(req.body);
-	res.render("filmiinimesed_add", {notice: "OOTAN ANDMEID"});
-});
-
-app.post("/Eestifilm/filmiinimesed_add", (req, res)=>{
-	console.log(req.body);
-	if(!req.body.firstNameInput	||!req.body.lastNameInput ||!req.body.bornInput	||req.body.bornInput >= new Date()){
-		res.render("filmiinimesed_add",{notice: "osa andmeid oli puudu või ebakorrektsed"});
-	}
-	else{
-		let sqlReq = "INSERT INTO person (first_name, last_name, born, deceased) VALUES (?,?,?,?)";
-		conn.esecute(sqlReq, [req.body.firstNameInput, req.body.lastNameInput, req.body.bornInput,req.body.deceasedInput], (err, sqlres)=>{
-			if(err){
-				red.render("filmiinimesed_add", {notice: "Andmete salvestamine ebaõnnestus"});
-			}
-			else{
-				res.render("filmiinimesed_add", {notice: "Andmete salvestamine õnnestus"});
-			}
-		})
-	}
-	res.render("filmiinimesed_add");
-})
+const eestifilmRouter = require("./routes/eestifilmRoutes")
+app.use("/Eestifilm", eestifilmRouter);
 
 app.listen(5120);
