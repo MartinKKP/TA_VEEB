@@ -1,37 +1,17 @@
 const express = require("express");
 const fs = require("fs");
-//päringu lahtiharutaja POST jaoks
 const bodyparser = require("body-parser");
-//const mysql = require("mysql2");
-//kuna kasutame asünktoonsust, siis impordime mysql2/promise mooduli
-const mysql = require("mysql2/promise");
+//const mysql = require("mysql2/promise");
 const dateEt = require("./src/dateTimeET");
-const dbInfo = require("../../VP_2025_config");
+//const dbInfo = require("../../../../vp2025config");
 const textRef = "public/txt/vanasonad.txt";
-//käivitan express.js funktsiooni ja annan talle nimeks "app"
 const app = express();
-//määran veebilehtede mallide renderdamise mootori
 app.set("view engine", "ejs");
-//määran ühe päris kataloogi avalikult kättesaadavaks
 app.use(express.static("public"));
-//parsime päringu URL-i, lipp false, kui ainult tekst ja true, kui muid andmeid ka
-app.use(bodyparser.urlencoded({extended: false}));
+//KUI TULEB VORMIS AINULT TEKSTI SIIS FALSE, MUIDU TRUE
+app.use(bodyparser.urlencoded({extended: true}));
 
-//loon andmebaasi ühenduse
-/*const conn = mysql.createConnection({
-	host:dbInfo.configData.host,
-	user:dbInfo.configData.user,
-	password:dbInfo.configData.passWord,
-	database: dbInfo.configData.dataBase
-}); */
-const dbConf = {
-	host:dbInfo.configData.host,
-	user:dbInfo.configData.user,
-	password:dbInfo.configData.passWord,
-	database: dbInfo.configData.dataBase
-}
 app.get("/", (req, res)=>{
-	//res.send("Express.js läks käima ja serveerib veebi!");
 	res.render("index");
 });
 
@@ -45,7 +25,6 @@ app.get("/vanasonad", (req, res)=>{
 	let folkWisdom = [];
 	fs.readFile(textRef, "utf8", (err, data)=>{
 		if(err){
-			//kui tuleb viga, siis ikka väljastame veebilehe, liuhtsalt vanasõnu pole ühtegi
 			res.render("genericlist", {heading: "Valik Eesti vanasõnu", listData: ["Ei leidnud ühtegi vanasõna!"]});
 		}
 		else {
@@ -61,7 +40,6 @@ app.get("/regvisit", (req, res)=>{
 
 app.post("/regvisit", (req, res)=>{
 	console.log(req.body);
-	//avan tekstifaili kirjutamiseks sellisel moel, et kui teda pole, luuakse (parameeter "a")
 	fs.open("public/txt/visitlog.txt", "a", (err, file)=>{
 		if(err){
 			throw(err);
@@ -85,7 +63,6 @@ app.get("/visitlog", (req, res)=>{
 	let listData = [];
 	fs.readFile("public/txt/visitlog.txt", "utf8", (err, data)=>{
 		if(err){
-			//kui tuleb viga, siis ikka väljastame veebilehe, liuhtsalt vanasõnu pole ühtegi
 			res.render("genericlist", {heading: "Registreeritud külastused", listData: ["Ei leidnud ühtegi külastust!"]});
 		}
 		else {
@@ -94,11 +71,17 @@ app.get("/visitlog", (req, res)=>{
 			for(let i = 0; i < listData.length - 1; i ++){
 				correctListData.push(listData[i]);
 			}
-			res.render("genericlist", {heading: "registreeritud külastused", listData: listData});
+			res.render("genericlist", {heading: "registreeritud külastused", listData: correctListData});
 		}
 	});
 });
-const eestifilmRouter = require("./routes/eestifilmRoutes")
+
+//Eesti filmi marsruudid
+const eestifilmRouter = require("./routes/eestifilmRoutes");
 app.use("/Eestifilm", eestifilmRouter);
+
+//Galerii fotode üleslaadimine
+const photoupRoutes = require("./routes/photoupRoutes");
+app.use("/galleryphotoupload", photoupRoutes);
 
 app.listen(5120);
