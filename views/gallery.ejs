@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="et">
+<head>
+<meta charset="utf-8">
+<title>Leht</title>
+<link rel="stylesheet" href="style/gallery.css">
+<script src="/script/gallery.js" defer></script>
+</head>
+<body>
+<img src="images/vp_banner_2025_TA.jpg" alt="kursuse bänner">
+<h1>Leht</h1>
+<p>See on leht, midagi uhket siit ei leia. <a href="https://www.tlu.ee">TLÜ</a></p>
+<hr>
+<ul>
+    <li><a href="/">Avaleht</a></li>
+</ul>
+<hr>
+<!--Dialoogiaken norm suuruse fotode näitamiseks-->
+<dialog id="modal" class="modalarea">
+    <span id="modalClose" class="modalclose">&times;</span>
+    <div class="modalhorizontal">
+        <div class="modalvertical">
+            <p id="modalCaption"></p>
+            <img id="modalImage" src="/images/empty.png" alt="galeriipilt">
+        </div>
+    </div>
+</dialog>
+<h2>Galerii</h2>
+<div class="gallery" id="gallery">
+    <% galleryData.forEach(function(image) { %>
+       <img src="<%=imagehref%><%=image.src%>" alt="<%=image.alt%>" class="thumbs" data-filename="<%=image.src%>">
+    <% }); %>
+    </div>
+</body>
+</html>
