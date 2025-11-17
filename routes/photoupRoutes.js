@@ -6,7 +6,7 @@ const uploader = multer({dest: "./public/gallery/orig/"});
 //kontrollerid
 const {
     photouploadPage,
-    photouploadPagePost} = require("../controllers/photouploadController"); 
+    photouploadPagePost} = require("../controllers/photouploadControllers"); 
 
 router.route("/").get(photouploadPage);
 

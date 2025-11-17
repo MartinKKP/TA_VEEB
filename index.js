@@ -121,4 +121,7 @@ app.use("/galleryphotoupload", photoupRoutes);
 const galleryRoutes = require("./routes/galleryRoutes");
 app.use("/photogallery", galleryRoutes);
 
+const signupRouter = require("./routes/signupRoutes");
+app.use("/signup", signupRouter);
+
 app.listen(5120);
